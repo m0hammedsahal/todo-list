@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TODO</title>
+    <link rel="stylesheet" href="{% static 'web/css/style.css' %}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Other head elements -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body class="text-[#515151] w-[50%] mx-auto">
+    <div class="flex justify-between items-center">
+        <h1 class="text-center text-4xl pt-1">Todo List</h1>
+        <a href="{% url 'web:logout' %}" class="flex">
+            <i id="logout" class="fa-solid fa-right-from-bracket rotate-180"></i>
+            <p id="lo" class="font-bold"></p>
+        </a>
+    </div>
+    <secttion class="">
+        <div class="left">
+            <form action="" method="post" class="flex justify-between mb-[50px] mt-[50px]">
+                {% csrf_token %}
+                <input value="{{ itemnow.name }}" type="text" name="item" id="item" placeholder="Enter Task" class="border-[2px] rounded-md outline-none w-full p-2">
+                <button type="submit"  class="border-[2px] rounded-md bg-gray-600 text-white p-1 w-[20%]">Add Now</button>
+            </form>
+        </div>
+        <div class="right">
+            <h5></h5>
+            {% if items %}
+            {% for item in items %}
+            <ul class="bg-yellow-300 p-2 rounded-md grid grid-cols-7 items-center mb-2">
+                <li class="col-span-4">{{ item.name }}</li>
+                <a href="{% url 'web:delete_item' item.id %}">
+                <li class="col-span-1 bg-red-500 text-white font-semibold py-1 px-2 rounded-md flex items-center hover:bg-red-600 mr-2">
+                    <i class="fa fa-trash text-white cursor-pointer mr-2"></i> Delete
+                </li>
+                </a>
+                <a href="{% url 'web:edit_item' item.id %}">
+                <li class="col-span-1 bg-blue-500 text-white font-semibold py-1 px-2 rounded-md flex items-center hover:bg-blue-600 mr-2">
+                    <i class="fa fa-edit text-white cursor-pointer mr-2"></i>Edit
+                </li>
+                </a>
+                <a href="{% url 'web:item_done' item.id %}">
+                <li class="col-span-1 bg-green-500 text-white font-semibold py-1 px-2 rounded-md flex items-center hover:bg-green-600">
+                    <i class="fa fa-check-circle mr-2"></i> Done
+                </li>
+                </a>
+            </ul>
+            {% endfor %}
+            {% else %}
+            <h1>No Items</h1>
+            {% endif %}
+        </div>
+        <div class="right mt-8">
+            <h5 class="mb-2">Completed Items</h5>
+            {% if doneitems %}
+            {% for item in doneitems %}
+            <ul class="bg-gray-400 p-2 rounded-md w-full items-center mb-2">
+                <li class="col-span-4">{{ item.name }}</li>
+            </ul>
+            {% endfor %}
+            {% else %}
+            <h1>No Done Items</h1>
+            {% endif %}
+        </div>
+    </secttion>
+
+
+    <script src="{% static 'web/js/script.js' %}"></script>
+</body>
+</html>
